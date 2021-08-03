@@ -2,37 +2,51 @@
 
 using namespace std;
 
+class TCase {
+	int roomNum;
+public:
+	void setRNum(int W, int H, int N);
+	int getRNum();
+};
+
+void TCase::setRNum(int W, int H, int N) {
+	int roomFNum;	// 방의 앞 번호(YY)
+	int roomBNum;	// 방의 뒷 번호(XX)
+
+	roomFNum = N % H;
+	if (roomFNum == 0) roomFNum = H;
+
+	roomFNum = roomFNum * 100;
+
+	roomBNum = 1;
+	roomBNum += N / H;
+	if (N%H == 0) roomBNum--;
+
+	this->roomNum = roomFNum + roomBNum;
+}
+
+int TCase::getRNum() {
+	return this->roomNum;
+}
+
 int main() {
-	int array[15][15] = { 0 };
+	int T;	// 테스트 케이스 갯수
+	TCase *TC;	// 테스트 케이스
+	int W;	// 각 층 방의 갯수
+	int H;	// 건물의 총 층수
+	int N;	// 몇번째 손님인지 정보
 	
-	for (int i = 1; i <= 14; i++) {
-		array[0][i] = i;
+
+	cin >> T;
+	TC = new TCase[T];
+
+	for (int i = 0; i < T; i++) {
+		cin >> H >> W >> N;
+		TC[i].setRNum(W, H, N);
 	}
 
-	for (int i = 1; i <= 14; i++) {
-		array[i][1] = 1;
-		for (int j = 2; j <= 14; j++) {
-			array[i][j] = array[i][j - 1] + array[i - 1][j];
-		}
-	}
-
-	int* result;
-	int tcNum;
-	int k;
-	int n;
-
-	cin >> tcNum;
-	result = new int[tcNum];
-
-	for (int i = 0; i < tcNum; i++) {
-		cin >> k;
-		cin >> n;
-
-		result[i] = array[k][n];
-	}
-
-	for (int i = 0; i < tcNum; i++) {
-		cout << result[i] << endl;
+	for (int i = 0; i < T; i++) {
+		cout << TC[i].getRNum() << endl;
 	}
 
 	return 0;
