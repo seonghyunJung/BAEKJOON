@@ -11,6 +11,7 @@ int bringBags(int N) {
 
 	if (N % 5 == 0) {
 		total = N / 5;
+		return total;
 	}
 	else {
 		quotient = N / 5;
